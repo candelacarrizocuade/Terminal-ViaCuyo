@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminal Cuyo | ViaCuyo Oficial</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<body>
+
+<style>
+/* ==========================================================================
+           🎨 DESIGN SYSTEM & VARIABLES (Paleta Corporativa de tus Imágenes)
+           ========================================================================== */
+        :root {
+            --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+            --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+            --wine-50: #fdfafb;
+            --wine-100: #fbeef0;
+            --wine-200: #f6dee2;
+            --wine-500: #c66c79;
+            --wine-700: #722f37; /* Tono vino de botones y acentos */
+            --wine-800: #622a31;
+            --wine-900: #54262c; /* Fondo del gradiente Hero */
+
+            --slate-50: #f6f6f8;
+            --slate-100: #edecf0;
+            --slate-200: #d7d6df;
+            --slate-500: #6f6d86;
+            --slate-800: #2d3142;
+            --slate-900: #242735;
+            --slate-950: #14161f; /* Fondo oscuro del plano interactivo */
+            
+            --canvas-bg: #F8F7F4;
+            --texto-main: #2d3142;
+        }
+
+        /* --- ANIMACIONES NATIVAS SOLICITADAS --- */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideIn {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+        .animate-fade-in { animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .animate-slide-in { animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+        /* --- RESET --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--canvas-bg); color: var(--texto-main); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* ==========================================================================
+           🧭 NAVBAR COMPLETA DE TU IMAGEN 1
+           ========================================================================== */
+        header { background-color: var(--white, #fff); border-bottom: 1px solid var(--slate-100); position: sticky; top: 0; z-index: 1000; }
+        .nav-container { max-width: 1200px; margin: 0 auto; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; }
+        
+        .nav-left { display: flex; align-items: center; gap: 1rem; }
+        .burger-icon { cursor: pointer; display: flex; flex-direction: column; gap: 4px; padding: 4px; }
+        .burger-icon span { display: block; width: 20px; height: 2px; background-color: var(--slate-800); }
+        
+        .brand-logo { font-weight: 800; font-size: 1.2rem; color: #000; display: flex; align-items: center; gap: 8px; letter-spacing: -0.5px; }
+        .brand-logo span { color: var(--wine-700); }
+        .badge-viacuyo { background-color: var(--wine-100); color: var(--wine-700); font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 12px; border: 1px solid var(--wine-200); }
+        
+        .nav-menu { display: none; gap: 1.5rem; font-size: 0.95rem; font-weight: 500; color: var(--slate-500); }
+        .nav-menu a:hover, .nav-menu a.active { color: var(--wine-700); font-weight: 600; }
+
+        /* ==========================================================================
+           🌅 HERO / PORTADA - IMAGEN 1
+           ========================================================================== */
+        .hero-section {
+            background: linear-gradient(rgba(84, 38, 44, 0.8), rgba(20, 22, 31, 0.95)), 
+                        url('https://images.myguide-cdn.com/md/content/1/large/cuyo-707068.jpg') no-repeat center center;
+            background-size: cover; padding: 5rem 1.5rem; color: #fff; text-align: left; position: relative;
+        }
+        .hero-content { max-width: 800px; margin: 0 auto; }
+        .tag-corredor { display: inline-flex; align-items: center; background: rgba(255,255,255,0.12); padding: 6px 14px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1.5rem; border: 1px solid rgba(255,255,255,0.2); }
+        .hero-title { font-size: 2.8rem; font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem; letter-spacing: -1px; }
+        .hero-title span { font-family: serif; font-style: italic; font-weight: 400; color: var(--wine-200); }
+        .hero-description { font-size: 1.05rem; color: rgba(255,255,255,0.85); margin-bottom: 2.5rem; font-weight: 400; max-width: 700px; }
+        
+        .hero-actions { display: flex; flex-wrap: wrap; gap: 1rem; }
+        .btn-filled { background-color: var(--wine-700); color: #fff; padding: 0.9rem 1.8rem; border-radius: 8px; font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: background 0.2s; border: none; }
+        .btn-filled:hover { background-color: var(--wine-800); }
+        .btn-outline { background: rgba(255,255,255,0.05); color: #fff; padding: 0.9rem 1.8rem; border-radius: 8px; font-weight: 600; font-size: 0.95rem; cursor: pointer; border: 1px solid rgba(255,255,255,0.4); display: inline-flex; align-items: center; gap: 8px; }
+        .btn-outline:hover { background: rgba(255,255,255,0.1); }
+
+        /* ==========================================================================
+           🎫 BUSCADOR COMPLETO DE VIAJES - IMAGEN 2
+           ========================================================================== */
+        .wrapper-main { max-width: 1200px; margin: 0 auto; padding: 3rem 1.5rem; }
+        .section-subtitle-corporate { color: var(--wine-700); font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.4rem; }
+        .section-main-title { font-size: 2.2rem; font-weight: 800; color: var(--slate-900); margin-bottom: 0.8rem; letter-spacing: -0.5px; }
+        .section-main-desc { font-size: 1rem; color: var(--slate-500); margin-bottom: 2rem; max-width: 700px; }
+
+        .search-engine-box { background-color: #fff; border-radius: 16px; border: 1px solid var(--slate-200); box-shadow: 0 4px 20px rgba(0,0,0,0.03); padding: 1.5rem; margin-bottom: 4rem; }
+        .search-steps-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--slate-100); padding-bottom: 1rem; margin-bottom: 1.5rem; }
+        .step-txt { font-size: 0.9rem; font-weight: 600; color: var(--slate-500); }
+        .step-txt span { color: var(--wine-700); font-family: var(--font-mono); }
+        .step-dots { display: flex; gap: 6px; }
+        .step-dot { width: 8px; height: 8px; background-color: var(--slate-200); border-radius: 50%; }
+        .step-dot.active { background-color: var(--wine-700); }
+
+        .search-fields-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+        .input-group { display: flex; flex-direction: column; gap: 0.5rem; }
+        .input-group label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--slate-500); letter-spacing: 0.5px; }
+        .input-with-icon { position: relative; background: var(--slate-50); border: 1px solid var(--slate-200); border-radius: 8px; padding: 0.85rem 1rem; font-size: 0.95rem; font-weight: 500; color: var(--slate-800); }
+        
+        .footer-search-row { display: flex; flex-direction: column; gap: 1rem; align-items: flex-start; justify-content: space-between; border-top: 1px solid var(--slate-100); padding-top: 1.5rem; }
+        .discount-notice { font-size: 0.88rem; color: var(--slate-500); display: flex; align-items: center; gap: 6px; }
+        .btn-search-submit { background-color: var(--wine-700); color: #fff; border: none; padding: 1rem 2rem; border-radius: 8px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; width: 100%; justify-content: center; font-size: 0.95rem; }
+        .btn-search-submit:hover { background-color: var(--wine-800); }
+
+        /* ==========================================================================
+           🍷 DESTINOS PREFERIDOS - IMÁGENES 3 Y 4
+           ========================================================================== */
+        .header-section-flex { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem; }
+        .link-view-all { color: var(--wine-700); font-weight: 700; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 4px; }
+        
+        .destinations-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; margin-bottom: 5rem; }
+        .destination-card { background: #fff; border-radius: 16px; border: 1px solid var(--slate-200); overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.02); display: flex; flex-direction: column; }
+        .card-image-wrapper { position: relative; height: 220px; width: 100%; background-color: var(--slate-200); }
+        .card-image-wrapper img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .badge-province { position: absolute; top: 12px; left: 12px; background: rgba(255,255,255,0.9); color: var(--wine-700); font-size: 0.7rem; font-weight: 800; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .badge-duration { position: absolute; bottom: 12px; right: 12px; background: rgba(114, 47, 55, 0.85); color: #fff; font-size: 0.75rem; font-weight: 600; padding: 4px 10px; border-radius: 4px; display: flex; align-items: center; gap: 4px; }
+        
+        .card-body-content { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
+        .card-title-destination { font-size: 1.35rem; font-weight: 800; color: var(--slate-900); margin-bottom: 0.6rem; }
+        .card-text-destination { font-size: 0.92rem; color: var(--slate-500); margin-bottom: 1.2rem; flex: 1; }
+        
+        .tags-pill-wrapper { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1.5rem; }
+        .pill-tag { background-color: var(--slate-50); color: var(--slate-500); font-size: 0.72rem; font-weight: 600; padding: 4px 10px; border-radius: 4px; border: 1px solid var(--slate-100); font-family: var(--font-mono); }
+        .destination-details { margin-bottom: 1rem; border-top: 1px solid var(--slate-100); padding-top: 1rem; }
+        .destination-details summary { cursor: pointer; color: var(--wine-700); font-weight: 700; font-size: 0.9rem; display: flex; justify-content: space-between; align-items: center; list-style: none; }
+        .destination-details summary::-webkit-details-marker { display: none; }
+        .destination-details-content { margin-top: 0.7rem; color: var(--slate-500); font-size: 0.88rem; line-height: 1.5; display: grid; gap: 0.35rem; }
+        
+        .card-price-footer { display: flex; justify-content: space-between; align-items: flex-end; border-top: 1px solid var(--slate-100); padding-top: 1rem; }
+        .price-label-wrapper { display: flex; flex-direction: column; }
+        .price-label-top { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: var(--slate-500); letter-spacing: 0.5px; }
+        .price-amount-bold { font-size: 1.5rem; font-weight: 800; color: var(--wine-700); }
+        .btn-card-reserve { background-color: var(--wine-700); color: #fff; border: none; padding: 0.6rem 1.2rem; border-radius: 6px; font-weight: 700; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
+
+        /* ==========================================================================
+           🚌 EMPRESAS OPERADORAS - IMAGEN 5
+           ========================================================================== */
+        .operators-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-bottom: 5rem; }
+        .operator-card { background: #fff; border-radius: 16px; border: 1px solid var(--slate-200); padding: 1.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.01); display: flex; flex-direction: column; position: relative; }
+        .operator-card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; }
+        .operator-icon-box { background-color: var(--wine-50); width: 44px; height: 44px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--wine-700); font-size: 1.3rem; }
+        .operator-rating { background-color: #fff7ed; border: 1px solid #ffedd5; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; color: #ea580c; display: flex; align-items: center; gap: 4px; }
+        
+        .operator-name { font-size: 1.25rem; font-weight: 800; color: var(--slate-900); margin-bottom: 0.2rem; }
+        .operator-category { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: var(--wine-700); letter-spacing: 0.5px; margin-bottom: 1rem; }
+        .operator-desc { font-size: 0.9rem; color: var(--slate-500); margin-bottom: 1.5rem; line-height: 1.5; flex: 1; }
+        .operator-frequency-row { border-top: 1px solid var(--slate-100); padding-top: 1rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; }
+        .freq-lbl { color: var(--slate-500); font-weight: 500; }
+        .freq-val { font-weight: 700; color: var(--slate-800); font-family: var(--font-mono); }
+
+        /* ==========================================================================
+           🗺️ CONTENEDOR DEL PLANO INTERACTIVO Y FILTROS - IMÁGENES 6, 7 Y 8
+           ========================================================================== */
+        .interactive-section-container { background-color: #fff; border-radius: 16px; border: 1px solid var(--slate-200); padding: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.02); margin-bottom: 4rem; }
+        .interactive-header-flex { display: flex; flex-direction: column; gap: 1rem; justify-content: space-between; border-bottom: 1px solid var(--slate-100); padding-bottom: 1.2rem; margin-bottom: 1.5rem; }
+        .map-badge-tag { display: inline-flex; color: var(--wine-700); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.3rem; }
+        .map-main-title { font-size: 1.4rem; font-weight: 800; color: var(--slate-900); }
+        .map-main-subtitle { font-size: 0.92rem; color: var(--slate-500); margin-top: 0.2rem; }
+        .responsive-indicator { background-color: var(--slate-50); border: 1px solid var(--slate-200); border-radius: 8px; padding: 8px 14px; font-size: 0.82rem; font-weight: 600; color: var(--slate-500); display: inline-flex; align-items: center; gap: 6px; }
+
+        /* Filtros de Botones Horizontales */
+        .filters-horizontal-scroll { display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.8rem; margin-bottom: 1.5rem; scrollbar-width: none; }
+        .filters-horizontal-scroll::-webkit-scrollbar { display: none; }
+        .filter-pill-btn { background-color: #fff; border: 1px solid var(--slate-200); border-radius: 8px; padding: 0.5rem 1rem; font-size: 0.85rem; font-weight: 600; color: var(--slate-800); cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s; }
+        .filter-pill-btn.active { background-color: var(--wine-700); color: #fff; border-color: var(--wine-700); }
+
+        /* Lienzo del Canvas del Plano */
+        .canvas-dark-wrapper { background-color: var(--slate-950); border-radius: 12px; padding: 1.5rem; display: flex; justify-content: center; align-items: center; overflow-X: auto; margin-bottom: 2rem; }
+        .svg-map-blueprint { width: 100%; min-width: 650px; height: auto; max-height: 420px; }
+        
+        .interactive-node { cursor: pointer; fill-opacity: 0.15; stroke-width: 2; transition: all 0.2s; }
+        .interactive-node:hover, .interactive-node.selected { fill-opacity: 0.35; stroke-width: 3; }
+        
+        /* Colores asignados por tipo en el mapa */
+        .node-andenes { fill: #f59e0b; stroke: #f59e0b; }
+        .node-espera { fill: #a855f7; stroke: #a855f7; }
+        .node-gastronomia { fill: #ec4899; stroke: #ec4899; }
+        .node-accesos { fill: #10b981; stroke: #10b981; }
+        .node-banos { fill: #06b6d4; stroke: #06b6d4; }
+        .node-informes { fill: #3b82f6; stroke: #3b82f6; }
+        .node-boleterias { fill: #ef4444; stroke: #ef4444; }
+
+        /* ==========================================================================
+           🔍 PANEL DETALLE DE INSPECCIÓN - IMAGEN 8
+           ========================================================================== */
+        .inspection-detail-card { background-color: var(--slate-50); border: 1px solid var(--slate-200); border-radius: 12px; padding: 1.5rem; }
+        .inspection-top-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+        .inspection-main-headline { font-size: 1.1rem; font-weight: 800; color: var(--slate-900); }
+        .inspection-meta-lbl { font-size: 0.75rem; font-weight: 600; color: var(--slate-400); }
+        
+        .node-profile-header { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.2rem; }
+        .node-profile-icon { background-color: #ecfdf5; border: 1px solid #a7f3d0; width: 44px; height: 44px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #10b981; font-size: 1.2rem; }
+        .node-profile-meta-block { display: flex; flex-direction: column; }
+        .node-profile-tag { display: inline-block; align-self: flex-start; background-color: #d1fae5; color: #065f46; font-size: 0.65rem; font-weight: 800; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; margin-bottom: 0.2rem; }
+        .node-profile-title-name { font-size: 1.3rem; font-weight: 800; color: var(--slate-900); letter-spacing: -0.3px; }
+        
+        .node-profile-desc-box { background-color: #fff; border: 1px solid var(--slate-200); padding: 1rem; border-radius: 8px; font-size: 0.92rem; color: var(--slate-800); margin-bottom: 1.5rem; }
+        .node-technical-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+        .tech-row-item { display: flex; gap: 8px; align-items: flex-start; font-size: 0.88rem; }
+        .tech-row-item .icon-meta { color: var(--slate-400); margin-top: 2px; }
+        .tech-row-item div p strong { color: var(--slate-500); font-weight: 600; display: block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        .tech-row-item div p span { color: var(--slate-800); font-weight: 500; }
+        
+        .status-badge-container { border-top: 1px solid var(--slate-200); padding-top: 1rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.88rem; font-weight: 600; color: var(--slate-600); }
+        .status-pill-green { background-color: #ecfdf5; color: #065f46; font-size: 0.72rem; font-weight: 800; padding: 4px 12px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 4px; }
+        .status-pill-green::before { content: ''; display: block; width: 6px; height: 6px; background-color: #10b981; border-radius: 50%; }
+
+        /* ==========================================================================
+           🎫 TARJETAS DE INFORMACIÓN COMPLEMENTARIAS - IMAGEN 9
+           ========================================================================== */
+        .complementary-cards-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-top: 2rem; margin-bottom: 4.5rem; }
+        .complementary-card { background-color: var(--slate-50); border: 1px solid var(--slate-100); border-radius: 12px; padding: 1.5rem; }
+        .comp-card-title { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; font-weight: 700; color: var(--wine-800); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.6rem; }
+        .comp-card-desc { font-size: 0.9rem; color: var(--slate-500); line-height: 1.5; }
+
+        /* ==========================================================================
+           ❓ SECCIÓN PREGUNTAS FRECUENTES (FAQs) - IMAGEN 10
+           ========================================================================== */
+        .faq-block-wrapper { background-color: #fff; border-radius: 16px; border: 1px solid var(--slate-200); padding: 1.5rem; box-shadow: 0 4px 20px rgba(0,0,0,0.02); }
+        .faq-top-flex-row { display: flex; flex-direction: column; gap: 1rem; border-bottom: 1px solid var(--slate-100); padding-bottom: 1.2rem; margin-bottom: 1.5rem; }
+        .search-faq-bar { position: relative; background-color: var(--slate-50); border: 1px solid var(--slate-200); border-radius: 8px; padding: 0.7rem 1rem; display: flex; align-items: center; gap: 8px; width: 100%; max-width: 320px; }
+        .search-faq-bar input { background: none; border: none; width: 100%; font-size: 0.88rem; outline: none; color: var(--slate-800); }
+        
+        .accordion-rows-stack { display: flex; flex-direction: column; gap: 1rem; }
+        .faq-accordion-item { border: 1px solid var(--slate-200); border-radius: 8px; background-color: #fff; transition: all 0.2s; overflow: hidden; }
+        .faq-accordion-item.active { border-color: var(--wine-300); background-color: var(--wine-50); }
+        
+        .faq-header-trigger { width: 100%; background: none; border: none; text-align: left; padding: 1.2rem; font-size: 1rem; font-weight: 700; color: var(--slate-900); cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+        .faq-arrow-icon { background-color: var(--slate-50); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--slate-500); font-size: 0.8rem; transition: transform 0.2s; }
+        .faq-accordion-item.active .faq-arrow-icon { transform: rotate(180deg); background-color: var(--wine-100); color: var(--wine-700); }
+        
+        .faq-body-dropdown { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+        .faq-body-dropdown div { padding: 0 1.2rem 1.2rem 1.2rem; font-size: 0.95rem; color: var(--slate-600); line-height: 1.5; border-top: 1px solid rgba(0,0,0,0.03); padding-top: 0.8rem; }
+        .faq-accordion-item.active .faq-body-dropdown { max-height: 200px; }
+
+        /* ==========================================================================
+           🏁 FOOTER
+           ========================================================================== */
+        footer { background-color: var(--slate-950); color: var(--wine-50); text-align: center; padding: 3rem 1.5rem; margin-top: 6rem; font-size: 0.9rem; border-top: 4px solid var(--wine-700); }
+        footer p { opacity: 0.5; margin-top: 0.4rem; font-family: var(--font-mono); font-size: 0.8rem; }
+
+        /* ==========================================================================
+           📱 MEDIA QUERIES EFECTIVAS PARA TABLET Y ESCRITORIO (Responsive Completo)
+           ========================================================================== */
+        @media (min-width: 768px) {
+            .nav-menu { display: flex; }
+            .burger-icon { display: none; }
+            
+            .search-fields-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-search-row { flex-direction: row; align-items: center; }
+            .btn-search-submit { width: auto; }
+
+            .destinations-grid { grid-template-columns: repeat(2, 1fr); }
+            .operators-grid { grid-template-columns: repeat(3, 1fr); }
+
+            .interactive-header-flex { flex-direction: row; align-items: center; }
+            .faq-top-flex-row { flex-direction: row; align-items: center; justify-content: space-between; }
+            
+            .node-technical-grid { grid-template-columns: repeat(2, 1fr); }
+            .complementary-cards-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        @media (min-width: 1024px) {
+            .search-fields-grid { grid-template-columns: 2fr 2fr 1.5fr 1.2fr; }
+            .grid-interactive-terminal { display: grid; grid-template-columns: 1.8fr 1.2fr; gap: 2rem; align-items: start; }
+            .interactive-section-container { padding: 2rem; }
+        }
+    </style>
+        
+<!-- MENÚ DE NAVEGACIÓN (Navbar de tu Imagen 1) -->
+    <header>
+        <div class="nav-container">
+            <div class="nav-left">
+                <button class="burger-icon" aria-label="Menú Hamburguesa">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <a href="#inicio" class="brand-logo">TERMINAL <span>CUYO</span> <span class="badge-viacuyo">ViaCuyo</span></a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#inicio" class="active">Inicio</a></li>
+                <li><a href="#destinos">Destinos</a></li>
+                <li><a href="#plano">Terminal</a></li>
+                <li><a href="#faqs">Soporte</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- PORTADA HERO PRINCIPAL (Contenido e Imagen 1) -->
+    <section id="inicio" class="hero-section">
+        <div class="hero-content animate-fade-in">
+            <div class="tag-corredor">✨ Corredor Cuyo y Andes</div>
+            <h2 class="hero-title">Tierra de montañas,<br><span>sol y</span> buen vino</h2>
+            <p class="hero-description">ViaCuyo te conecta con Mendoza, San Juan, San Luis y La Rioja mediante unidades premium equipadas con butacas cama suite, degustaciones de bodegas locales y tecnología a bordo.</p>
+            <div class="hero-actions">
+                <a href="#buscador" class="btn-filled">Reservar Pasajes Online ↓</a>
+                <a href="#plano" class="btn-outline">🗺️ Consultar Andenes de Terminal</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ENVOLTORIO DE CONTENIDO GENERAL -->
+    <div class="wrapper-main">
+
+        <!-- BUSCADOR INSTITUCIONAL (Campos e Imagen 2) -->
+        <section id="buscador" class="search-engine-box">
+            <div class="search-steps-header">
+                <div class="step-txt">Reserva <span>ViaCuyo</span> / Paso 1 de 5</div>
+                <div class="step-dots">
+                    <div class="step-dot active"></div>
+                    <div class="step-dot"></div>
+                    <div class="step-dot"></div>
+                    <div class="step-dot"></div>
+                    <div class="step-dot"></div>
+                </div>
+            </div>
+            <div class="search-fields-grid">
+                <div class="input-group">
+                    <label>Origen</label>
+                    <div class="input-with-icon">📍 Buenos Aires - Terminal Retiro</div>
+                </div>
+                <div class="input-group">
+                    <label>Destino en Cuyo</label>
+                    <div class="input-with-icon">🚌 Mendoza Capital (Mendoza)</div>
+                </div>
+                <div class="input-group">
+                    <label>Fecha de Ida</label>
+                    <div class="input-with-icon">📅 29/06/2026</div>
+                </div>
+                <div class="input-group">
+                    <label>Pasajeros</label>
+                    <div class="input-with-icon">👤 1 Pasajero</div>
+                </div>
+            </div>
+            <div class="footer-search-row">
+                <div class="discount-notice">✓ Descuento del 10% abonando con transferencia bancaria.</div>
+                <button class="btn-search-submit">🔍 Buscar Servicios ViaCuyo</button>
+            </div>
+        </section>
+
+        <!-- SECCIÓN DESTINOS PREFERIDOS (Tarjetas de las Imágenes 3 y 4) -->
+        <section id="destinos" style="margin-bottom: 5rem;">
+            <div class="header-section-flex">
+                <div>
+                    <p class="section-subtitle-corporate">Explorá la Región</p>
+                    <h2 class="section-main-title">Tus Destinos Preferidos</h2>
+                    <p class="section-main-desc">Ciudades vibrantes, valles vitivinícolas y aventuras precordilleranas de excelencia.</p>
+                </div>
+                <a href="#todos" class="link-view-all">Ver todos los horarios disponibles ›</a>
+            </div>
+
+            <div class="destinations-grid">
+                <!-- Mendoza Capital -->
+                <div class="destination-card">
+                    <div class="card-image-wrapper">
+                        <img src="https://media.lacapital.com.ar/p/f88d4b765c1ec4d27da2beb7587d4966/adjuntos/203/imagenes/024/531/0024531300/1200x675/smart/tur-06-001-71197840jpg.jpg" alt="Mendoza Capital">
+                        <span class="badge-province">Mendoza</span>
+                        <span class="badge-duration">⏱ 13 hs</span>
+                    </div>
+                    <div class="card-body-content">
+                        <h3 class="card-title-destination">Mendoza Capital</h3>
+                        <p class="card-text-destination">Tierra del sol y del buen vino. Disfrutá de la majestuosidad de la Cordillera de los Andes, bodegas de renombre internacional y un centro urbano arbolado único.</p>
+                        <div class="tags-pill-wrapper">
+                            <span class="pill-tag">Parque General San Martín</span>
+                            <span class="pill-tag">Ruta del Vino en Luján de Cuyo</span>
+                            <span class="pill-tag">Cerro de la Gloria</span>
+                            <span class="pill-tag">Plaza Independencia</span>
+                        </div>
+                        <details class="destination-details">
+                            <summary>Ver más sobre este destino</summary>
+                            <div class="destination-details-content">
+                                <span>Ideal para combinar turismo urbano, bodegas y actividades al aire libre.</span>
+                                <span>Perfecto para escapadas de fin de semana y viajes en familia.</span>
+                            </div>
+                        </details>
+                        <div class="card-price-footer">
+                            <div class="price-label-wrapper">
+                                <span class="price-label-top">Desde</span>
+                                <span class="price-amount-bold">$32.500</span>
+                            </div>
+                            <button class="btn-card-reserve">Reservar ›</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- San Rafael -->
+                <div class="destination-card">
+                    <div class="card-image-wrapper">
+                        <img src="https://sisaturismo.com/wp-content/uploads/2024/09/SAN-RAFAEL-2025-e1730059922482.png" alt="San Rafael">
+                        <span class="badge-province">Mendoza</span>
+                        <span class="badge-duration">⏱ 14.5 hs</span>
+                    </div>
+                    <div class="card-body-content">
+                        <h3 class="card-title-destination">San Rafael</h3>
+                        <p class="card-text-destination">Puerta de entrada al imponente Cañón del Atuel. Ideal para amantes del turismo aventura, el rafting, los lagos de aguas turquesas y la tranquilidad de sus fincas.</p>
+                        <div class="tags-pill-wrapper">
+                            <span class="pill-tag">Cañón del Atuel</span>
+                            <span class="pill-tag">Dique El Nihuil</span>
+                            <span class="pill-tag">Valle Grande</span>
+                            <span class="pill-tag">Caminos del Vino local</span>
+                        </div>
+                        <details class="destination-details">
+                            <summary>Ver más sobre este destino</summary>
+                            <div class="destination-details-content">
+                                <span>Perfecto para quienes buscan aventura, paisajes y descanso en la naturaleza.</span>
+                                <span>Excelente opción para viajar en cualquier época del año.</span>
+                            </div>
+                        </details>
+                        <div class="card-price-footer">
+                            <div class="price-label-wrapper">
+                                <span class="price-label-top">Desde</span>
+                                <span class="price-amount-bold">$34.200</span>
+                            </div>
+                            <button class="btn-card-reserve">Reservar ›</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- San Juan Capital -->
+                <div class="destination-card">
+                    <div class="card-image-wrapper">
+                        <img src="https://images.trvl-media.com/place/3599/c0161458-efa8-4b60-a89b-a4c8fa183ddb.jpg?impolicy=fcrop&w=450&h=280&q=medium" alt="San Juan Capital">
+                        <span class="badge-province">San Juan</span>
+                        <span class="badge-duration">⏱ 15 hs</span>
+                    </div>
+                    <div class="card-body-content">
+                        <h3 class="card-title-destination">San Juan Capital</h3>
+                        <p class="card-text-destination">Una de las ciudades más modernas del país, reconstruida con arquitectura antisísmica. Rodeada de valles fértiles, precordillera y un sol radiante casi todo el año.</p>
+                        <div class="tags-pill-wrapper">
+                            <span class="pill-tag">Casa Natal de Sarmiento</span>
+                            <span class="pill-tag">Dique de Ullum</span>
+                            <span class="pill-tag">Teatro del Bicentenario</span>
+                            <span class="pill-tag">Acceso a Ischigualasto</span>
+                        </div>
+                        <details class="destination-details">
+                            <summary>Ver más sobre este destino</summary>
+                            <div class="destination-details-content">
+                                <span>Combina cultura, paisaje y una excelente oferta gastronómica.</span>
+                                <span>Muy recomendado para viajes de turismo cultural y de naturaleza.</span>
+                            </div>
+                        </details>
+                        <div class="card-price-footer">
+                            <div class="price-label-wrapper">
+                                <span class="price-label-top">Desde</span>
+                                <span class="price-amount-bold">$33.800</span>
+                            </div>
+                            <button class="btn-card-reserve">Reservar ›</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Villa de Merlo -->
+                <div class="destination-card">
+                    <div class="card-image-wrapper">
+                        <img src="https://agenciasanluis.com/wp-content/uploads/2017/12/merlo-san-luis-vivimerlo-500x332.jpg" alt="Villa de Merlo">
+                        <span class="badge-province">San Luis</span>
+                        <span class="badge-duration">⏱ 11 hs</span>
+                    </div>
+                    <div class="card-body-content">
+                        <h3 class="card-title-destination">Villa de Merlo</h3>
+                        <p class="card-text-destination">Reconocida mundialmente por su exclusivo microclima protector y saludable. Un oasis de paz al pie de las Sierras de Comechingones, ideal para descansar.</p>
+                        <div class="tags-pill-wrapper">
+                            <span class="pill-tag">Filo de la Sierra</span>
+                            <span class="pill-tag">Pasos Malos</span>
+                            <span class="pill-tag">Chorro de San Ignacio</span>
+                            <span class="pill-tag">Reserva Florofaunística</span>
+                        </div>
+                        <details class="destination-details">
+                            <summary>Ver más sobre este destino</summary>
+                            <div class="destination-details-content">
+                                <span>Ideal para escapadas relajadas, caminatas y disfrutar del clima serrano.</span>
+                                <span>Una excelente opción para desconectarse del ritmo urbano.</span>
+                            </div>
+                        </details>
+                        <div class="card-price-footer">
+                            <div class="price-label-wrapper">
+                                <span class="price-label-top">Desde</span>
+                                <span class="price-amount-bold">$29.500</span>
+                            </div>
+                            <button class="btn-card-reserve">Reservar ›</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN EMPRESAS OPERADORAS (Tarjetas de la Imagen 5) -->
+        <section style="margin-bottom: 5rem;">
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <p class="section-subtitle-corporate">Excelencia de Flota</p>
+                <h2 class="section-main-title">Empresas Operadoras y Servicios</h2>
+                <p class="section-main-desc" style="margin: 0 auto;">Unidades certificadas con el mayor índice de puntualidad, confort y seguridad vial nacional.</p>
+            </div>
+
+            <div class="operators-grid">
+                <!-- ViaCuyo -->
+                <div class="operator-card">
+                    <div class="operator-card-top">
+                        <div class="operator-icon-box">🚌</div>
+                        <div class="operator-rating">⭐ 4.9 / 5</div>
+                    </div>
+                    <h3 class="operator-name">ViaCuyo (Exclusivo)</h3>
+                    <p class="operator-category">Cama Suite & Premium</p>
+                    <p class="operator-desc">Nuestra línea premium. Unidades de última generación con butacas reclinables 180°, pantallas individuales con películas a demanda, auriculares, puertos USB, cena caliente gourmet y selección de vinos malbec de cortesía.</p>
+                    <div class="operator-frequency-row">
+                        <span class="freq-lbl">Frecuencia:</span>
+                        <span class="freq-val">Salidas cada 3 horas</span>
+                    </div>
+                </div>
+
+                <!-- Cuyo Express -->
+                <div class="operator-card">
+                    <div class="operator-card-top">
+                        <div class="operator-icon-box">🖲️</div>
+                        <div class="operator-rating">⭐ 4.5 / 5</div>
+                    </div>
+                    <h3 class="operator-name">Cuyo Express</h3>
+                    <p class="operator-category">Semicama & Cama</p>
+                    <p class="operator-desc">Conexiones directas de alta velocidad entre Buenos Aires, San Luis y Mendoza. Excelente relación precio-calidad con snacks a bordo, cargador móvil y aire acondicionado inteligente.</p>
+                    <div class="operator-frequency-row">
+                        <span class="freq-lbl">Frecuencia:</span>
+                        <span class="freq-val">Salidas diarias</span>
+                    </div>
+                </div>
+
+                <!-- Andesmar Cuyo -->
+                <div class="operator-card">
+                    <div class="operator-card-top">
+                        <div class="operator-icon-box">🚍</div>
+                        <div class="operator-rating">⭐ 4.3 / 5</div>
+                    </div>
+                    <h3 class="operator-name">Andesmar Cuyo</h3>
+                    <p class="operator-category">Cama Ejecutivo</p>
+                    <p class="operator-desc">Compañía aliada con amplia cobertura en todo el territorio cuyano. Unidades confortables con servicio de wifi terrestre y auxiliares de a bordo para un viaje ameno.</p>
+                    <div class="operator-frequency-row">
+                        <span class="freq-lbl">Frecuencia:</span>
+                        <span class="freq-val">Salidas de refuerzo</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN PLANO GUÍA INTERACTIVO (Requerimiento Estricto e Imágenes 6, 7 y 8) -->
+        <section id="plano" style="margin-bottom: 5rem;">
+            <span class="map-badge-tag">⚙ Contenido Integrado — Corredor Cuyo</span>
+            <h2 class="section-main-title">Servicios de Terminal y Plano Interactive</h2>
+            <p class="section-main-desc">Identificá andenes de ViaCuyo, accesos de pasajeros, sanitarios, oficinas de información y locales gastronómicos cuyanos.</p>
+
+            <div class="interactive-section-container">
+                <div class="interactive-header-flex">
+                    <div>
+                        <span class="map-badge-tag">📌 Plano Guía Interactivo</span>
+                        <h3 class="map-main-title">Terminal de Ómnibus de Cuyo - Mendoza</h3>
+                        <p class="map-main-subtitle">Hacé clic en los sectores del mapa o utilizá los filtros para localizar servicios, andenes y comercios.</p>
+                    </div>
+                    <div class="responsive-indicator">↕ Navegación 100% Adaptable</div>
+                </div>
+
+                <!-- Botones de Filtro Flotantes (Imagen 6) -->
+                <div class="filters-horizontal-scroll">
+                    <button class="filter-pill-btn active" data-filter="all">📦 Todos los Sectores</button>
+                    <button class="filter-pill-btn" data-filter="andenes">🚌 Andenes / Plataformas</button>
+                    <button class="filter-pill-btn" data-filter="espera">🕒 Áreas de Espera</button>
+                    <button class="filter-pill-btn" data-filter="gastronomia">☕ Gastronomía y Vinos</button>
+                    <button class="filter-pill-btn" data-filter="accesos">📍 Accesos</button>
+                    <button class="filter-pill-btn" data-filter="banos">👤 Baños y Sanitarios</button>
+                    <button class="filter-pill-btn" data-filter="informes">ℹ Informes</button>
+                    <button class="filter-pill-btn" data-filter="boleterias">🎫 Boleterías</button>
+                </div>
+
+                <!-- BLOQUE DEL MAPA Y DETALLE EN PARALELO -->
+                <div class="grid-interactive-terminal">
+                    
+                    <!-- Plano Canvas en CSS Oscuro (Imagen 7) -->
+                    <div class="canvas-dark-wrapper">
+                        <svg class="svg-map-blueprint" viewBox="0 0 700 450" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Contorno delimitador general -->
+                            <rect x="15" y="15" width="670" height="420" rx="16" fill="#1e2230" stroke="#2a3045" stroke-width="2"/>
+                            <text x="35" y="420" fill="#4f5b7d" font-size="10" font-family="var(--font-mono)">ESTACIONAMIENTO GENERAL</text>
+                            <text x="530" y="85" fill="#4f5b7d" font-size="10" font-family="var(--font-mono)">PLATAFORMAS DE EMBARQUE</text>
+
+                            <!-- Nodos de Andenes / Plataformas -->
+                            <rect x="50" y="45" width="100" height="60" rx="8" class="interactive-node node-andenes" data-type="andenes" data-name="Plataformas 1 al 3 (ViaCuyo Exclusivo)" data-desc="Dársenas de arribo prioritario de ViaCuyo con salas de acople directo para equipaje pesado." data-loc="Ala Norte, Plataforma Exterior" data-hours="Abierto las 24 hs"/>
+                            <text x="58" y="90" fill="#fff" font-size="10" font-family="var(--font-mono)">1 al 3</text>
+                            
+                            <rect x="170" y="45" width="110" height="60" rx="8" class="interactive-node node-andenes" data-type="andenes" data-name="Plataformas 4 al 6 (Cuyo Express)" data-desc="Sección de andenes destinada para servicios rápidos interprovinciales del corredor andino." data-loc="Ala Norte, Sector Central" data-hours="Abierto las 24 hs"/>
+                            <text x="178" y="90" fill="#fff" font-size="10" font-family="var(--font-mono)">4 al 6</text>
+                            
+                            <rect x="290" y="45" width="110" height="60" rx="8" class="interactive-node node-andenes" data-type="andenes" data-name="Plataformas 7 al 12 (Andesmar)" data-desc="Plataformas comunes asignadas a micros de refuerzo y contingencias de empresas aliadas." data-loc="Ala Norte, Extremo Este" data-hours="Abierto las 24 hs"/>
+                            <text x="298" y="90" fill="#fff" font-size="10" font-family="var(--font-mono)">7 al 12</text>
+
+                            <!-- Línea punteada divisoria de dársenas -->
+                            <line x1="30" y1="120" x2="670" y2="120" stroke="#2a3045" stroke-dasharray="6" stroke-width="2"/>
+
+                            <!-- Áreas de Espera -->
+                            <rect x="70" y="150" width="210" height="110" rx="10" class="interactive-node node-espera" data-type="espera" data-name="Sala de Espera Común" data-desc="Espacio central climatizado con asientos de alta densidad, pantallas de arribos y puertos de carga USB." data-loc="Sector Central Principal" data-hours="Abierto las 24 hs"/>
+                            <text x="78" y="245" fill="#fff" font-size="10" font-family="var(--font-mono)">Sala de Espe...</text>
+                            
+                            <rect x="70" y="275" width="105" height="55" rx="8" class="interactive-node node-espera" data-type="espera" data-name="Sala VIP ViaCuyo" data-desc="Exclusiva para pasajeros Premium. Living privado, refrigerios libres de cortesía, sillones masajeadores y Wi-Fi dedicado." data-loc="Sector Central, Planta Baja" data-hours="06:00 a 00:00 hs"/>
+                            <text x="76" y="318" fill="#fff" font-size="10" font-family="var(--font-mono)">Sala VIP Vía...</text>
+
+                            <!-- Oficina de Información -->
+                            <circle cx="240" cy="305" r="30" class="interactive-node node-informes" data-type="informes" data-name="Oficina de Información y Turismo" data-desc="Atención bilingüe para asistencia al viajero, validación de pasajes con QR erróneos y mapas turísticos de bodegas." data-loc="Módulo Central Circular" data-hours="Abierto las 24 hs"/>
+                            <text x="240" y="308" fill="#fff" font-size="12" font-weight="bold" text-anchor="middle">ℹ</text>
+
+                            <!-- Locales Gastronómicos -->
+                            <rect x="350" y="150" width="90" height="70" rx="8" class="interactive-node node-gastronomia" data-type="gastronomia" data-name="Cafetería La Vendimia" data-desc="Especialistas en desayunos de campo y pastelería artesanal mendocina antes de emprender tu viaje." data-loc="Ala Este, Local Comercial 1" data-hours="05:00 a 23:00 hs"/>
+                            <text x="356" y="205" fill="#fff" font-size="9" font-family="var(--font-mono)">Cafetería & ...</text>
+                            
+                            <rect x="450" y="150" width="95" height="70" rx="8" class="interactive-node node-gastronomia" data-type="gastronomia" data-name="Vinoteca El Malbec" data-desc="Venta y degustación de vinos de bodegas boutique con empaque térmico homologado para bodega de micro." data-loc="Ala Este, Local Comercial 2" data-hours="09:00 a 21:00 hs"/>
+                            <text x="456" y="205" fill="#fff" font-size="9" font-family="var(--font-mono)">Vinoteca & S...</text>
+                            
+                            <rect x="350" y="230" width="195" height="75" rx="8" class="interactive-node node-gastronomia" data-type="gastronomia" data-name="Restaurante Sabores de Cuyo" data-desc="Platos de cocina tradicional andina, chivito y pastas con menú ejecutivo rápido para pasajeros en tránsito." data-loc="Ala Este, Salón Principal" data-hours="11:30 a 16:00, 19:30 a 00:00 hs"/>
+                            <text x="356" y="290" fill="#fff" font-size="10" font-family="var(--font-mono)">Restaurante ...</text>
+
+                            <!-- Baños -->
+                            <rect x="70" y="345" width="50" height="45" rx="6" class="interactive-node node-banos" data-type="banos" data-name="Sanitarios y Duchas (Ala Oeste)" data-desc="Baños públicos higienizados con cabinas de duchas calefaccionadas de uso arancelado." data-loc="Ala Oeste, Junto a Sala VIP" data-hours="Abierto las 24 hs"/>
+                            <text x="75" y="380" fill="#fff" font-size="8" font-family="var(--font-mono)">Sanitarios y..</text>
+                            
+                            <rect x="495" y="315" width="50" height="45" rx="6" class="interactive-node node-banos" data-type="banos" data-name="Sanitarios Comunes (Ala Este)" data-desc="Módulo de baños sin duchas, adaptado para personas con movilidad reducida." data-loc="Ala Este, Planta Baja" data-hours="Abierto las 24 hs"/>
+                            <text x="500" y="350" fill="#fff" font-size="8" font-family="var(--font-mono)">Sanitarios y..</text>
+
+                            <!-- Accesos -->
+                            <rect x="25" y="195" width="18" height="60" rx="4" class="interactive-node node-accesos" data-type="accesos" data-name="Acceso Oeste (Peatonal)" data-desc="Puerta secundaria de ingreso para pasajeros procedentes de la zona comercial oeste." data-loc="Lateral Izquierdo" data-hours="Abierto las 24 hs"/>
+                            <text x="28" y="330" fill="#4f5b7d" font-size="9" font-family="var(--font-mono)" transform="rotate(-90,28,330)">Acceso Oeste...</text>
+                            
+                            <rect x="235" y="390" width="100" height="20" rx="4" class="interactive-node node-accesos selected" data-type="accesos" data-name="Acceso Principal (Avenida San Martín)" data-desc="Ingreso peatonal principal a la terminal. Conexión directa con paradas de colectivos urbanos, taxis y estacionamiento frontal." data-loc="Sector Sur, Centro." data-hours="Abierto las 24 hs"/>
+                            <text x="240" y="402" fill="#fff" font-size="9" font-family="var(--font-mono)">Acceso Princ...</text>
+
+                            <!-- Boleterías -->
+                            <rect x="350" y="350" width="135" height="50" rx="8" class="interactive-node node-boleterias" data-type="boleterias" data-name="Boleterías Oficiales ViaCuyo" data-desc="Puntos de venta física y canje de pasajes oficiales de la línea y convenios." data-loc="Ala Este, Módulo 1 al 4" data-hours="06:00 a 23:00 hs"/>
+                            <text x="356" y="385" fill="#fff" font-size="10" font-family="var(--font-mono)">Boleterías O...</text>
+                        </svg>
+                    </div>
+
+                    <!-- PANEL DE INSPECCIÓN DE DETALLE DINÁMICO (Imagen 8) -->
+                    <div class="display-sidebar-info">
+                        <div class="inspection-detail-card" id="inspectionCard">
+                            <div class="inspection-top-row">
+                                <span class="inspection-main-headline">Detalle de Selección</span>
+                                <span class="inspection-meta-lbl">Inspección de Terminal</span>
+                            </div>
+                            
+                            <div class="node-profile-header">
+                                <div class="node-profile-icon" id="nodeIcon">📍</div>
+                                <div class="node-profile-meta-block">
+                                    <span class="node-profile-tag" id="nodeTag">Acceso</span>
+                                    <h4 class="node-profile-title-name" id="nodeTitleName">Acceso Principal (Avenida San Martín)</h4>
+                                </div>
+                            </div>
+
+                            <div class="node-profile-desc-box" id="nodeDesc">
+                                Ingreso peatonal principal a la terminal. Conexión directa con paradas de colectivos urbanos, taxis y estacionamiento frontal.
+                            </div>
+
+                            <div class="node-technical-grid">
+                                <div class="tech-row-item">
+                                    <span class="icon-meta">🗺️</span>
+                                    <div>
+                                        <p><strong>Ubicación física:</strong></p>
+                                        <p><span id="nodeLoc">Sector Sur, Centro.</span></p>
+                                    </div>
+                                </div>
+                                <div class="tech-row-item">
+                                    <span class="icon-meta">🕒</span>
+                                    <div>
+                                        <p><strong>Horario de Operación:</strong></p>
+                                        <p><span id="nodeHours">Abierto las 24 hs</span></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="status-badge-container">
+                                <span>Operación de Terminal:</span>
+                                <span class="status-pill-green">Flujo Normal</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- TARJETAS COMPLEMENTARIAS - IMAGEN 9 -->
+                <div class="complementary-cards-grid">
+                    <div class="complementary-card">
+                        <h4 class="comp-card-title">🚌 Andenes y Dársenas</h4>
+                        <p class="comp-card-desc">Ubicados en el sector Norte. Los andenes 1 al 6 están reservados exclusivamente para salidas de ViaCuyo a Mendoza, San Juan, San Luis y La Rioja.</p>
+                    </div>
+                    <div class="complementary-card">
+                        <h4 class="comp-card-title">☕ Gastronomía Cuyana</h4>
+                        <p class="comp-card-desc">Situados en el ala Este de la terminal. Incluye la cafetería "La Vendimia" y la exclusiva vinoteca "El Malbec" con degustaciones y productos regionales listos para viaje.</p>
+                    </div>
+                    <div class="complementary-card">
+                        <h4 class="comp-card-title">👤 Baños, Sanitarios y Duchas</h4>
+                        <p class="comp-card-desc">Baños completos en las alas Este y Oeste. El ala Este cuenta con cabinas de duchas calefaccionadas de uso arancelado ideales para pasajeros en tránsito.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECCIÓN PREGUNTAS FRECUENTES (FAQs) - IMAGEN 10 -->
+        <section id="faqs" class="faq-block-wrapper">
+            <div class="faq-top-flex-row">
+                <div>
+                    <p class="section-subtitle-corporate">✉ Centro de Soporte al Pasajero</p>
+                    <h2 class="section-main-title">Preguntas Frecuentes</h2>
+                    <p class="section-main-desc" style="margin-bottom: 0;">Resolvemos tus dudas sobre andenes, equipaje, pasajes y servicios exclusivos a la región de Cuyo.</p>
+                </div>
+                <div class="search-faq-bar">
+                    <span>🔍</span>
+                    <input type="text" placeholder="¿Qué estás buscando?..." id="faqSearchInput">
+                </div>
+            </div>
+
+            <!-- Filtros de Categoría FAQs -->
+            <div class="filters-horizontal-scroll" style="margin-bottom: 2rem;">
+                <button class="filter-pill-btn active">Todas las Preguntas</button>
+                <button class="filter-pill-btn">Boleto & Reservas</button>
+                <button class="filter-pill-btn">Normas de Equipaje</button>
+                <button class="filter-pill-btn">Servicio a Bordo</button>
+                <button class="filter-pill-btn">Terminal de Cuyo</button>
+            </div>
+
+            <div class="accordion-rows-stack">
+                <div class="faq-accordion-item">
+                    <button class="faq-header-trigger">
+                        ¿Con cuánta anticipación debo llegar a la Terminal de Ómnibus?
+                        <span class="faq-arrow-icon">▼</span>
+                    </button>
+                    <div class="faq-body-dropdown">
+                        <div>Para servicios premium de ViaCuyo, debés arribar al menos 45 minutos antes de la partida. Esto garantiza el correcto etiquetado de tu equipaje de bodega y la degustación de bienvenida en los andenes asignados.</div>
+                    </div>
+                </div>
+
+                <div class="faq-accordion-item">
+                    <button class="faq-header-trigger">
+                        ¿Qué equipaje está incluido en mi pasaje de ViaCuyo?
+                        <span class="faq-arrow-icon">▼</span>
+                    </button>
+                    <div class="faq-body-dropdown">
+                        <div>Tu pasaje incluye un bolso de mano en cabina de hasta 5 kg y una pieza grande en bodega de hasta 15 kg. Las cajas de vino compradas en la terminal requieren empaque de protección térmica homologado para su despacho seguro.</div>
+                    </div>
+                </div>
+
+                <div class="faq-accordion-item">
+                    <button class="faq-header-trigger">
+                        ¿Cómo funciona la selección de vinos a bordo del servicio Premium?
+                        <span class="faq-arrow-icon">▼</span>
+                    </button>
+                    <div class="faq-body-dropdown">
+                        <div>Durante la cena gourmet provista en las unidades Cama Suite, nuestro personal ofrece una carta de selección rotativa con varietales de bodegas destacadas de Mendoza y San Juan sin costo adicional.</div>
+                    </div>
+                </div>
+
+                <div class="faq-accordion-item">
+                    <button class="faq-header-trigger">
+                        ¿Puedo comprar boletos online y presentarlos en el celular?
+                        <span class="faq-arrow-icon">▼</span>
+                    </button>
+                    <div class="faq-body-dropdown">
+                        <div>¡Totalmente! ViaCuyo promueve el boleto ecológico. Podés abordar mostrando el código QR desde tu correo electrónico o billetera digital directamente al chofer junto con tu DNI físico vigente.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- PIE DE PÁGINA -->
+    <footer>
+        <h3>TERMINAL CUYO • ViaCuyo Terrestre</h3>
+        <p>Todos los derechos reservados © 2026. Logic solutions.</p>
+    </footer>
+
+    <!-- ==========================================================================
+           ⚙️ LÓGICA DE INTERACCIÓN CON JAVASCRIPT NATIVO
+           ========================================================================== */ -->
+    <script>
+        // 1. CONTROL DEL MENÚ COLAPSABLE (MOBILE INTERACTIVE)
+        const burgerIcon = document.querySelector('.burger-icon');
+        const navMenu = document.querySelector('.nav-menu');
+
+        burgerIcon.addEventListener('click', () => {
+            navMenu.style.display = navMenu.style.display === 'flex' ? 'none' : 'flex';
+            navMenu.style.flexDirection = 'column';
+            navMenu.style.position = 'absolute';
+            navMenu.style.top = '55px';
+            navMenu.style.left = '0';
+            navMenu.style.width = '100%';
+            navMenu.style.backgroundColor = '#fff';
+            navMenu.style.padding = '1rem';
+            navMenu.style.borderBottom = '1px solid #edecf0';
+        });
+
+        // 2. INTERACTIVIDAD DEL PLANO (SVG NOODLES MAPPING)
+        const mapNodes = document.querySelectorAll('.interactive-node');
+        const nodeIcon = document.getElementById('nodeIcon');
+        const nodeTag = document.getElementById('nodeTag');
+        const nodeTitleName = document.getElementById('nodeTitleName');
+        const nodeDesc = document.getElementById('nodeDesc');
+        const nodeLoc = document.getElementById('nodeLoc');
+        const nodeHours = document.getElementById('nodeHours');
+
+        // Mapeo dinámico de emoticones según tipo de sector
+        const iconMapping = {
+            andenes: '🚌',
+            espera: '🕒',
+            gastronomia: '☕',
+            accesos: '📍',
+            banos: '👤',
+            informes: 'ℹ',
+            boleterias: '🎫'
+        };
+
+        mapNodes.forEach(node => {
+            node.addEventListener('click', () => {
+                // Quitar clase seleccionada previa de todos los nodos
+                mapNodes.forEach(n => n.classList.remove('selected'));
+                
+                // Activar nodo seleccionado actual
+                node.classList.add('selected');
+
+                // Obtener meta-atributos guardados en el marcado SVG
+                const type = node.getAttribute('data-type');
+                const name = node.getAttribute('data-name');
+                const desc = node.getAttribute('data-desc');
+                const loc = node.getAttribute('data-loc');
+                const hours = node.getAttribute('data-hours');
+
+                // Inyectar al panel lateral dinámico de inspección
+                nodeIcon.textContent = iconMapping[type] || '📌';
+                nodeTag.textContent = type;
+                nodeTitleName.textContent = name;
+                nodeDesc.textContent = desc;
+                nodeLoc.textContent = loc;
+                nodeHours.textContent = hours;
+            });
+        });
+
+        // 3. BOTONES DE FILTRO HORIZONTALES DEL PLANO
+        const filterButtons = document.querySelectorAll('.filters-horizontal-scroll .filter-pill-btn');
+        
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Cambiar estado activo en la botonera
+                filterButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filterValue = btn.getAttribute('data-filter');
+
+                // Aplicar opacidad condicionada en los nodos vectoriales del plano
+                mapNodes.forEach(node => {
+                    const nodeType = node.getAttribute('data-type');
+                    if (filterValue === 'all' || nodeType === filterValue) {
+                        node.style.opacity = '1';
+                        node.style.strokeWidth = '2';
+                    } else {
+                        node.style.opacity = '0.15';
+                        node.style.strokeWidth = '1';
+                    }
+                });
+            });
+        });
+
+        // 4. ACORDEÓN DE PREGUNTAS FRECUENTES (FAQs)
+        const accordionTriggers = document.querySelectorAll('.faq-header-trigger');
+
+        accordionTriggers.forEach(trigger => {
+            trigger.addEventListener('click', () => {
+                const parentRow = trigger.parentElement;
+                const isCurrentlyActive = parentRow.classList.contains('active');
+
+                // Cerrar todos los acordeones abiertos
+                document.querySelectorAll('.faq-accordion-item').forEach(row => {
+                    row.classList.remove('active');
+                });
+
+                // Si no estaba abierto, abrirlo
+                if (!isCurrentlyActive) {
+                    parentRow.classList.add('active');
+                }
+            });
+        });
+
+        // 5. ENLACES DE NAVEGACIÓN SUAVE CONSISTENTE
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if(targetId !== '#') {
+                    document.querySelector(targetId).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
